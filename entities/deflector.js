@@ -35,4 +35,7 @@ export class Deflector{
 
     }
 
+    update(){
+        this.rotate()
+    }
 }

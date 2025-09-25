@@ -12,6 +12,9 @@ export class Boundary {
     draw() {
         v.beginPath()
         v.arc(this.position.x, this.position.y, this.radius - 5, 0, Math.PI * 2)
+        v.stroke()
+        v.closePath()
+        v.beginPath()
         v.arc(this.position.x, this.position.y, this.radius + 5, 0, Math.PI * 2)
         v.stroke()
     }
