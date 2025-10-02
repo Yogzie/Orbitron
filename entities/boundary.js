@@ -5,17 +5,17 @@ export class Boundary {
 
     constructor() {
         this.resize()
-
+        this.thickness = 5
     }
 
 
     draw() {
         v.beginPath()
-        v.arc(this.position.x, this.position.y, this.radius - 5, 0, Math.PI * 2)
+        v.arc(this.position.x, this.position.y, this.radius - this.thickness, 0, Math.PI * 2)
         v.stroke()
         v.closePath()
         v.beginPath()
-        v.arc(this.position.x, this.position.y, this.radius + 5, 0, Math.PI * 2)
+        v.arc(this.position.x, this.position.y, this.radius + this.thickness, 0, Math.PI * 2)
         v.stroke()
     }
 
