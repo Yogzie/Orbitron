@@ -46,6 +46,9 @@ export class Electron {
 
             this.dx -= 2 * dot * vectorX
             this.dy -= 2 * dot * vectorY
+            const length = Math.hypot(this.dx, this.dy)
+            this.dx = this.dx / length * this.speed
+            this.dy = this.dy / length * this.speed 
 
         }
     }

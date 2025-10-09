@@ -26,6 +26,8 @@ export class Atom {
 
         for (const d of this.deflectors) this.electrons.push(new Electron(this.boundary, d.position))
 
+        this.resize()
+
     }
 
 

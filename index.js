@@ -2,12 +2,8 @@ import { c, v } from "./canvas/canvas.js"
 import { Atom } from "./atom.js"
 
 const atom = new Atom()
-atom.resize()
-window.addEventListener("resize", resize)
-
-function resize(e){
-    atom.resize()
-}
+   
+window.addEventListener("resize", () => atom.resize())
 
 function animate() {
 
