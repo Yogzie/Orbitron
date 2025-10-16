@@ -4,7 +4,6 @@ export class CanvasUtils {
     static {
         CanvasUtils.setupCanvas();
         CanvasUtils.resizeCanvas();
-        window.addEventListener("resize", CanvasUtils.resizeCanvas)
     }
     static resizeCanvas() {
         this.canvas.height = innerHeight;
@@ -23,3 +22,4 @@ export class CanvasUtils {
 
 export const c = CanvasUtils.canvas
 export const v = CanvasUtils.view
+

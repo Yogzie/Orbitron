@@ -2,6 +2,7 @@ import { Boundary } from "./entities/boundary.js"
 import { Deflector } from "./entities/deflector.js"
 import { Nucleon } from "./entities/nucleon.js"
 import { Electron } from "./entities/electron.js"
+import { CanvasUtils } from "./canvas/canvas.js"
 
 export class Atom {
     static score = { "blue": 0, "green": 0, "yellow": 0, "red": 0 }
@@ -49,7 +50,10 @@ export class Atom {
     }
 
     resize() {
+        CanvasUtils.resizeCanvas()
         this.boundary.resize()
+        for (const e of this.electrons) e.resize()
+
     }
 
     update() {
