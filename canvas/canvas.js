@@ -16,6 +16,9 @@ export class CanvasUtils {
         this.view.lineWidth = 2;
         this.view.lineCap = "round";
         this.view.fillStyle = "white";
+
+        this.view.translate(this.canvas.width / 2, this.canvas.height / 2)
+        this.view.scale(1, -1)
     }
 
 }
