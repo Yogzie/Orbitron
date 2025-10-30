@@ -3,32 +3,15 @@ import { Deflector } from "./entities/deflector.js"
 import { Nucleon } from "./entities/nucleon.js"
 import { Electron } from "./entities/electron.js"
 import { CanvasUtils } from "./canvas/canvas.js"
+import { Keyboard } from "./actions/Keyboard.js"
 
 export class Atom {
     static score = { "blue": 0, "green": 0, "yellow": 0, "red": 0 }
+    static deflectors = []
+
     constructor() {
-        this.boundary = new Boundary()
-        this.deflectors = []
-        this.nucleons = []
-        this.electrons = []
-
-
-        this.deflectors.push(new Deflector(this.boundary, 0, "red"))
-        this.deflectors.push(new Deflector(this.boundary, 0.5, "blue"))
-        this.deflectors.push(new Deflector(this.boundary, 0.25, "green"))
-        this.deflectors.push(new Deflector(this.boundary, 0.75, "yellow"))
-
-
-        this.createShell(10, 0.1, 1)
-        this.createShell(20, 0.2, -1)
-        this.createShell(30, 0.3, 1)
-        this.createShell(40, 0.4, -1)
-        this.createShell(50, 0.5, 1)
-
-        for (const d of this.deflectors) this.electrons.push(new Electron(this.boundary, d.position))
-
+        this.reset()
         this.resize()
-
     }
 
 
@@ -44,7 +27,7 @@ export class Atom {
 
     draw() {
         this.boundary.draw()
-        for (const d of this.deflectors) d.draw()
+        for (const d of Atom.deflectors) d.draw()
         for (const n of this.nucleons) n.draw()
         for (const e of this.electrons) e.draw()
     }
@@ -57,20 +40,42 @@ export class Atom {
     }
 
     update() {
-        for (const d of this.deflectors) d.update()
+        for (const d of Atom.deflectors) d.update()
         for (const n of this.nucleons) n.update()
         for (const e of this.electrons) e.update()
     }
 
     step() {
+        if (Keyboard.Reset) {
+            this.reset()
+            return
+        }
         this.update()
         this.checkNucleonElectronCollision()
         this.checkBoundaryElectronCollision()
         this.draw()
-
     }
 
+    reset() {
+        this.boundary = new Boundary()
+        this.nucleons = []
+        this.electrons = []
 
+
+        Atom.deflectors.push(new Deflector(this.boundary, 0))
+        Atom.deflectors.push(new Deflector(this.boundary, 0.5))
+        Atom.deflectors.push(new Deflector(this.boundary, 0.25))
+        Atom.deflectors.push(new Deflector(this.boundary, 0.75))
+
+
+        this.createShell(10, 0.1, 1)
+        this.createShell(20, 0.2, -1)
+        this.createShell(30, 0.3, 1)
+        this.createShell(40, 0.4, -1)
+        this.createShell(50, 0.5, 1)
+
+        for (const d of Atom.deflectors) this.electrons.push(new Electron(this.boundary, d.position))
+    }
     checkNucleonElectronCollision() {
         const radiusSum = Nucleon.radius + Electron.radius
         for (const n of this.nucleons) {

@@ -1,5 +1,6 @@
 import { c, v } from "../canvas/canvas.js"
 import { Nucleon } from "./nucleon.js"
+import { Atom } from "../atom.js"
 
 export class Electron {
 
@@ -34,22 +35,14 @@ export class Electron {
     }
 
     resize() {
-        /*
-        const angle = Math.atan2(this.boundary.oldPosition.y - this.y, this.boundary.oldPosition.x - this.x)
-        const dist = Math.hypot(this.x - this.boundary.position.x, this.y - this.boundary.position.y)
-        const distPercentage = dist / this.boundary.oldRadius
-        this.x = this.boundary.oldPosition.x + Math.cos(angle) * (this.boundary.radius * distPercentage)
-        this.y = this.boundary.oldPosition.y + Math.sin(angle) * (this.boundary.radius * distPercentage)
-        console.log(`resized angle: ${angle} dist: ${dist} distPercentage ${distPercentage}`)
-        */
-       const vector = {x: this.boundary.position.x - this.x , y: this.boundary.position.y - this.y}
-       const scale = this.boundary.radius / this.boundary.previous.radius
-       this.x = this.boundary.position.x + vector.x * scale
-       this.y = this.boundary.position.y + vector.y * scale
-       this.dx *= scale
-       this.dy *= scale
-       Electron.radius = this.boundary.radius / 60
-       Nucleon.radius = Electron.radius
+        const vector = { x: this.boundary.position.x - this.x, y: this.boundary.position.y - this.y }
+        const scale = this.boundary.radius / this.boundary.previous.radius
+        this.x = this.boundary.position.x + vector.x * scale
+        this.y = this.boundary.position.y + vector.y * scale
+        this.dx *= scale
+        this.dy *= scale
+        Electron.radius = this.boundary.radius / 60
+        Nucleon.radius = Electron.radius
 
     }
 
@@ -57,8 +50,14 @@ export class Electron {
         const dist = Math.hypot(this.x - this.boundary.position.x, this.y - this.boundary.position.y)
 
         if (dist + Electron.radius + this.boundary.thickness >= this.boundary.radius) {
-            //this.x -= this.dx
-            //this.y -= this.dy
+            let angle = Math.atan2(this.y, this.x)
+            if (angle < -Math.PI / 2) angle += Math.PI * 2;
+            for (const d of Atom.deflectors) {
+                if ((angle > d.startAngle) && (angle < d.endAngle)) {
+                    this.color = d.color
+                }
+            }
+
             const distToBoundary = dist - Electron.radius - this.boundary.thickness
             this.x *= distToBoundary / dist
             this.y *= distToBoundary / dist
