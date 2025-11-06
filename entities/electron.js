@@ -50,11 +50,25 @@ export class Electron {
         const dist = Math.hypot(this.x - this.boundary.position.x, this.y - this.boundary.position.y)
 
         if (dist + Electron.radius + this.boundary.thickness >= this.boundary.radius) {
-            let angle = Math.atan2(this.y, this.x)
-            if (angle < -Math.PI / 2) angle += Math.PI * 2;
-            if(angle < 0 ) angle += Math.PI * 2;
+            const TWO_PI = Math.PI * 2
+            // Compute angle of impact relative to the boundary center and normalize to [0, 2π)
+            let angle = Math.atan2(
+                this.y - this.boundary.position.y,
+                this.x - this.boundary.position.x
+            )
+            angle = ((angle % TWO_PI) + TWO_PI) % TWO_PI
+
+            // Match against deflector arc, accounting for wrap-around across 0/2π
             for (const d of Atom.deflectors) {
-                if ((angle > d.startAngle) && (angle < d.endAngle)) {
+                let start = ((d.startAngle % TWO_PI) + TWO_PI) % TWO_PI
+                let end = ((d.endAngle % TWO_PI) + TWO_PI) % TWO_PI
+
+                const wraps = start > end
+                const inArc = wraps
+                    ? (angle >= start || angle <= end)
+                    : (angle >= start && angle <= end)
+
+                if (inArc) {
                     this.color = d.color
                 }
             }

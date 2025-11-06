@@ -61,6 +61,9 @@ export class Atom {
         this.nucleons = []
         this.electrons = []
 
+        // Reset deflectors to prevent accumulation across resets
+        Atom.deflectors = []
+        Deflector.nextid = 0
 
         Atom.deflectors.push(new Deflector(this.boundary, 0))
         Atom.deflectors.push(new Deflector(this.boundary, 0.5))
