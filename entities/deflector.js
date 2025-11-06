@@ -13,9 +13,10 @@ export class Deflector {
         this.color = Object.keys(Atom.score)[this.id]
         this.startAngle = (this.position - this.size / 2) * Math.PI * 2
         this.endAngle = (this.position + this.size / 2) * Math.PI * 2
+        this.speed = 0.15
     }
 
-    rotate(direction = 0) {
+    rotate(direction) {
         this.position += direction
     }
 
@@ -37,11 +38,11 @@ export class Deflector {
 
     }
 
-    update() {
+    update(dt) {
         if (Keyboard.Left) {
-            this.rotate(0.001)
+            this.rotate(this.speed * dt)
         } else if (Keyboard.Right) {
-            this.rotate(-0.001)
+            this.rotate(-this.speed * dt)
         }
     }
 }

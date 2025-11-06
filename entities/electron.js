@@ -14,7 +14,7 @@ export class Electron {
         this.x = this.boundary.position.x + Math.cos(deflectorPos * Math.PI * 2) * 0.9 * this.boundary.radius;
         this.y = this.boundary.position.y + Math.sin(deflectorPos * Math.PI * 2) * 0.9 * this.boundary.radius;
 
-        this.speed = 0.5
+        this.speed = 30
 
         const angle = Math.atan2(this.boundary.position.y - this.y, this.boundary.position.x - this.x)
 
@@ -29,9 +29,9 @@ export class Electron {
         v.fill()
     }
 
-    update() {
-        this.x += this.dx
-        this.y += this.dy
+    update(dt) {
+        this.x += this.dx * dt
+        this.y += this.dy * dt
     }
 
     resize() {
@@ -52,6 +52,7 @@ export class Electron {
         if (dist + Electron.radius + this.boundary.thickness >= this.boundary.radius) {
             let angle = Math.atan2(this.y, this.x)
             if (angle < -Math.PI / 2) angle += Math.PI * 2;
+            if(angle < 0 ) angle += Math.PI * 2;
             for (const d of Atom.deflectors) {
                 if ((angle > d.startAngle) && (angle < d.endAngle)) {
                     this.color = d.color

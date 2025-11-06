@@ -15,11 +15,13 @@ export class Nucleon {
         this.direction = direction;
 
         this.volatile = volatile;
+
+        this.speed = 1
     }
 
-    update() {
+    update(dt) {
         if (!this.active) return
-        this.angle += this.direction * 0.01;
+        this.angle += this.direction * this.speed * dt;
         if (this.volatile) {
             this.x = this.boundary.position.x + Math.cos(this.angle) * this.distanceFactor * this.boundary.radius * Math.sin(this.angle * 2)
 

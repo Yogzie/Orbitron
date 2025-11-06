@@ -39,18 +39,18 @@ export class Atom {
 
     }
 
-    update() {
-        for (const d of Atom.deflectors) d.update()
-        for (const n of this.nucleons) n.update()
-        for (const e of this.electrons) e.update()
+    update(dt) {
+        for (const d of Atom.deflectors) d.update(dt)
+        for (const n of this.nucleons) n.update(dt)
+        for (const e of this.electrons) e.update(dt)
     }
 
-    step() {
+    step(dt) {
         if (Keyboard.Reset) {
             this.reset()
             return
         }
-        this.update()
+        this.update(dt)
         this.checkNucleonElectronCollision()
         this.checkBoundaryElectronCollision()
         this.draw()
