@@ -18,6 +18,8 @@ export class Deflector {
 
     rotate(direction) {
         this.position += direction
+        // Normalize position to [0,1) to keep angles bounded
+        this.position = ((this.position % 1) + 1) % 1
     }
 
     draw() {
