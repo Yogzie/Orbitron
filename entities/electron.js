@@ -46,7 +46,7 @@ export class Electron {
 
     }
 
-    checkBoundaryCollision() {
+    checkBoundaryCollision(dt) {
         const dist = Math.hypot(this.x - this.boundary.position.x, this.y - this.boundary.position.y)
 
         if (dist + Electron.radius + this.boundary.thickness >= this.boundary.radius) {
@@ -70,6 +70,9 @@ export class Electron {
 
                 if (inArc) {
                     this.color = d.color
+                    const scale = Math.hypot(this.x, this.y)
+                    this.dx = this.x / scale * dt * this.speed
+                    this.dy = this.y / scale * dt * this.speed
                 }
             }
 
